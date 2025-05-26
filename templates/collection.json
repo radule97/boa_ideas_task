@@ -19,9 +19,11 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "disabled": true,
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
@@ -32,7 +34,19 @@
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
-        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "test_featured_products_R3fbQR": {
+      "type": "test-featured-products",
+      "name": "t:sections.test_featured_products.name",
+      "settings": {
+        "title": "Featured Products",
+        "subtitle": "Discover our handpicked selection",
+        "boa_product_list": [],
+        "columns_desktop": 4,
+        "min_column_width": 250,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -40,6 +54,7 @@
   },
   "order": [
     "banner",
-    "product-grid"
+    "product-grid",
+    "test_featured_products_R3fbQR"
   ]
 }
