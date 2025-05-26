@@ -25,40 +25,40 @@
 
 {% style %}
   #shopify-section-{{ section.id }} {
-    --columns-desktop: {{ columns_desktop }};
-    --min-column-width: {{ min_column_width | append: 'px' }};
-    --section-padding-top: {{ padding_top | append: 'px' }};
-    --section-padding-bottom: {{ padding_bottom | append: 'px' }};
+  --columns-desktop: {{ columns_desktop }};
+  --min-column-width: {{ min_column_width | append: 'px' }};
+  --section-padding-top: {{ padding_top | append: 'px' }};
+  --section-padding-bottom: {{ padding_bottom | append: 'px' }};
   }
 
-  @media screen and (min-width: {{ settings.page_width | divided_by: 10 }}rem) {
-    #shopify-section-{{ section.id }} .boa-fp-grid {
-      grid-template-columns: repeat(
-        {{ columns_desktop }},
-        minmax({{ min_column_width | append: 'px' }}, 1fr)
-      );
-    }
+  @media screen and (min-width: {{ settings.page_width | minus: 100 }}px) {
+  #shopify-section-{{ section.id }} .boa-fp-grid {
+  grid-template-columns: repeat(
+  {{ columns_desktop }},
+  minmax({{ min_column_width | append: 'px' }}, 1fr)
+  );
+  }
   }
 {% endstyle %}
 
 <div class="boa-featured-products">
-    <div class="page-width">
-      <div class="boa-fp-content">
-        {%- if title != blank -%}
-          <h2 class="product__title h2">{{ title }}</h2>
-        {%- endif -%}
-        {%- if subtitle != blank -%}
-          <div class="rte body">{{ subtitle }}</div>
-        {%- endif -%}
-        {% if boa_product_list.count > 0 %}
-          <div class="boa-fp-grid">
-            {%- for boa_product in boa_product_list limit: 10 -%}
-              {% render 'card-product-boa', product: boa_product %}
-            {%- endfor -%}
-          </div>
-        {% endif %}
-      </div>
+  <div class="page-width">
+    <div class="boa-fp-content">
+      {%- if title != blank -%}
+        <h2 class="product__title h2">{{ title }}</h2>
+      {%- endif -%}
+      {%- if subtitle != blank -%}
+        <div class="rte body">{{ subtitle }}</div>
+      {%- endif -%}
+      {% if boa_product_list.count > 0 %}
+        <div class="boa-fp-grid">
+          {%- for boa_product in boa_product_list limit: 10 -%}
+            {% render 'card-product-boa', product: boa_product %}
+          {%- endfor -%}
+        </div>
+      {% endif %}
     </div>
+  </div>
 </div>
 
 {% schema %}
@@ -105,7 +105,7 @@
       "type": "range",
       "id": "columns_desktop",
       "min": 1,
-      "max": 6,
+      "max": 4,
       "step": 1,
       "default": 4,
       "label": "t:sections.test_featured_products.settings.columns_desktop.label",
