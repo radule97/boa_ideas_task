@@ -1,0 +1,101 @@
+{% comment %}
+  Renders a boa product card
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+
+  Usage:
+  {% render 'card-product-boa', product: product %}
+{% endcomment %}
+
+{% liquid
+  assign first_variant = product.first_available_variant | default: product.variants.first
+  assign compare_at_price = first_variant.compare_at_price
+  assign price = first_variant.price
+  assign title_color = product.metafields.boa_test.title_color | default: '#FF0000'
+%}
+
+{{ 'card-product-boa.css' | asset_url | stylesheet_tag }}
+
+<div class="card-product-boa">
+  <div class="card-product-boa__price-discounted">
+    <span class="price">
+      {% if settings.currency_code_enabled %}
+        {{ price | money_with_currency }}
+      {% else %}
+        {{ price | money }}
+      {% endif %}
+    </span>
+  </div>
+  {%- if compare_at_price and compare_at_price > price -%}
+    <div class="card-product-boa__price-full">
+      <span class="price price--original">
+        {% if settings.currency_code_enabled %}
+          {{ compare_at_price | money_with_currency }}
+        {% else %}
+          {{ compare_at_price | money }}
+        {% endif %}
+      </span>
+    </div>
+  {%- endif -%}
+
+  {%- if product.vendor != blank -%}
+    <div class="card-product-boa__vendor">
+      <span class="vendor">{{ product.vendor }}</span>
+    </div>
+  {%- endif -%}
+
+  <div class="card-product-boa__title">
+    <a href="{{ product.url }}">
+      <h3 class="product-title" style="color: {{ title_color }};">
+        {{ product.title | escape }}
+      </h3>
+    </a>
+  </div>
+
+  {% comment %} Can be improved by rendering existing theme media snippet {% endcomment %}
+  {%- if product.featured_image -%}
+    <div class="card-product-boa__image">
+      <a href="{{ product.url }}">
+        <img
+                src="{{ product.featured_image | image_url: width: 400 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                loading="lazy"
+                width="{{ product.featured_image.width }}"
+                height="{{ product.featured_image.height }}"
+        >
+      </a>
+    </div>
+  {%- endif -%}
+
+  <div class="card-product-boa__cta">
+    {% comment %}
+      {{ first_variant.inventory_policy }}
+      {{ first_variant.inventory_quantity }}
+    {% endcomment %}
+    {%- if first_variant.available -%}
+    <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="product-form">
+      <input type="hidden" name="id" value="{{ first_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <input type="hidden" name="return_to" value="{{ routes.cart_url }}">
+    {%- endif -%}
+      <button
+        type="submit"
+        name="add"
+        class="btn btn--primary btn--full-width"
+        {% unless first_variant.available %}disabled{% endunless %}
+      >
+        {%- if first_variant.available -%}
+          {{ 'products.product.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- endif -%}
+      </button>
+    {%- if first_variant.available -%}
+    </form>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%}Required empty div with unique ID for internal script{%- endcomment -%}
+  <div id="product-{{ product.id }}-placeholder"></div>
+</div>

@@ -1,0 +1,156 @@
+{% liquid
+  comment
+    * Schema variables
+  endcomment
+  assign title = section.settings.title
+  assign subtitle = section.settings.subtitle
+  assign boa_product_list = section.settings.boa_product_list
+  comment
+    --- Set CSS custom properties for grid configuration
+  endcomment
+  assign columns_desktop = section.settings.columns_desktop | default: 4
+  assign min_column_width = section.settings.min_column_width | default: 250
+  assign padding_top = section.settings.padding_top | default: 36
+  assign padding_bottom = section.settings.padding_bottom | default: 36
+
+
+  unless boa_product_list.count > 0
+    if template contains 'collection' and collection and collection.products.size > 0
+      assign boa_product_list = collection.products
+    endif
+  endunless
+%}
+
+{{ 'featured-products-boa.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --columns-desktop: {{ columns_desktop }};
+    --min-column-width: {{ min_column_width | append: 'px' }};
+    --section-padding-top: {{ padding_top | append: 'px' }};
+    --section-padding-bottom: {{ padding_bottom | append: 'px' }};
+  }
+
+  @media screen and (min-width: {{ settings.page_width | divided_by: 10 }}rem) {
+    #shopify-section-{{ section.id }} .boa-fp-grid {
+      grid-template-columns: repeat(
+        {{ columns_desktop }},
+        minmax({{ min_column_width | append: 'px' }}, 1fr)
+      );
+    }
+  }
+{% endstyle %}
+
+<div class="boa-featured-products">
+    <div class="page-width">
+      <div class="boa-fp-content">
+        {%- if title != blank -%}
+          <h2 class="product__title h2">{{ title }}</h2>
+        {%- endif -%}
+        {%- if subtitle != blank -%}
+          <div class="rte body">{{ subtitle }}</div>
+        {%- endif -%}
+        {% if boa_product_list.count > 0 %}
+          <div class="boa-fp-grid">
+            {%- for boa_product in boa_product_list limit: 10 -%}
+              {% render 'card-product-boa', product: boa_product %}
+            {%- endfor -%}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.test_featured_products.name",
+  "tag": "section",
+  "class": "section boa-featured-products-section-wrap",
+  "templates": ["page", "product", "collection"],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.test_featured_products.settings.header_content.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Featured Products",
+      "label": "t:sections.test_featured_products.settings.title.label",
+      "info": "t:sections.test_featured_products.settings.title.info"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "default": "Discover our handpicked selection",
+      "label": "t:sections.test_featured_products.settings.subtitle.label",
+      "info": "t:sections.test_featured_products.settings.subtitle.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.test_featured_products.settings.header_products.label"
+    },
+    {
+      "type": "product_list",
+      "id": "boa_product_list",
+      "label": "t:sections.test_featured_products.settings.products.label",
+      "info": "t:sections.test_featured_products.settings.products.info",
+      "limit": 10
+    },
+    {
+      "type": "header",
+      "content": "t:sections.test_featured_products.settings.header_layout.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.test_featured_products.settings.columns_desktop.label",
+      "info": "t:sections.test_featured_products.settings.columns_desktop.info"
+    },
+    {
+      "type": "range",
+      "id": "min_column_width",
+      "min": 200,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 250,
+      "label": "t:sections.test_featured_products.settings.min_column_width.label",
+      "info": "t:sections.test_featured_products.settings.min_column_width.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.test_featured_products.settings.header_spacing.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.test_featured_products.name"
+    }
+  ]
+}
+{% endschema %}

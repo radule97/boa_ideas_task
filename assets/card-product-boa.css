@@ -1,0 +1,147 @@
+/* BOA Product Card Styles */
+
+.card-product-boa {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: rgb(var(--color-background));
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    transition: box-shadow 0.2s ease;
+}
+.card-product-boa a {
+    text-decoration: none;
+}
+
+.card-product-boa:hover {
+    box-shadow: 0 4px 12px rgba(var(--color-shadow), 0.1);
+}
+
+/* Price Styling */
+.card-product-boa__price-full {
+    margin-bottom: 0.5rem;
+}
+
+.card-product-boa__price-full .price--original {
+    color: rgba(var(--color-foreground), 0.75);
+    text-decoration: line-through;
+    font-size: 1.4rem;
+}
+
+.card-product-boa__price-discounted {
+    margin-bottom: 1rem;
+}
+
+.card-product-boa__price-discounted .price {
+    color: rgb(var(--color-foreground));
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+/* Vendor Styling */
+.card-product-boa__vendor {
+    margin-bottom: 0.8rem;
+}
+
+.card-product-boa__vendor .vendor {
+    color: rgba(var(--color-foreground), 0.7);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    font-weight: 500;
+}
+
+/* Title Styling */
+.card-product-boa__title {
+    margin-bottom: 1.5rem;
+}
+
+.card-product-boa__title .product-title {
+    font-size: 1.6rem;
+    line-height: 1.3;
+    margin: 0;
+    font-weight: 600;
+    /* Color is set inline via metafield */
+}
+
+/* Image Styling */
+.card-product-boa__image {
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-product-boa__image img {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: calc(var(--border-radius) * 0.5);
+}
+
+/* CTA Button Styling */
+.card-product-boa__cta {
+    margin-top: auto;
+}
+
+.card-product-boa .product-form {
+    width: 100%;
+}
+
+.card-product-boa .btn {
+    width: 100%;
+    padding: 1.2rem 2rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+.card-product-boa .btn--primary {
+    background-color: rgb(var(--color-button));
+    color: rgb(var(--color-button-text));
+}
+
+.card-product-boa .btn--primary:hover:not(:disabled) {
+    background-color: rgba(var(--color-button), 0.9);
+    transform: translateY(-1px);
+}
+
+.card-product-boa .btn:disabled {
+    background-color: rgba(var(--color-foreground), 0.3);
+    color: rgba(var(--color-foreground), 0.6);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 767px) {
+    .card-product-boa {
+        padding: 1.2rem;
+    }
+
+    .card-product-boa__price-full .price--original,
+    .card-product-boa__price-discounted .price {
+        font-size: 1.4rem;
+    }
+
+    .card-product-boa__title .product-title {
+        font-size: 1.4rem;
+    }
+
+    .card-product-boa__image img {
+        max-height: 200px;
+    }
+
+    .card-product-boa .btn {
+        padding: 1rem 1.5rem;
+        font-size: 1.3rem;
+    }
+}

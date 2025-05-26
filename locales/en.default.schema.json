@@ -448,6 +448,43 @@
         "label": "Image shape"
       }
     },
+    "test_featured_products": {
+      "name": "BOA Featured Products",
+      "settings": {
+        "header_content": {
+          "label": "Content"
+        },
+        "title": {
+          "label": "Heading",
+          "info": "Main heading for the featured products section"
+        },
+        "subtitle": {
+          "label": "Subheading",
+          "info": "Optional subheading text that appears below the main heading"
+        },
+        "header_products": {
+          "label": "Products"
+        },
+        "products": {
+          "label": "Products to show",
+          "info": "Select specific products to display. If left empty on collection pages, the first 10 products from the collection will be shown."
+        },
+        "header_layout": {
+          "label": "Layout"
+        },
+        "columns_desktop": {
+          "label": "Number of columns on desktop",
+          "info": "Maximum number of products per row on desktop screens"
+        },
+        "min_column_width": {
+          "label": "Minimum column width",
+          "info": "Minimum width for each product column in pixels"
+        },
+        "header_spacing": {
+          "label": "Section spacing"
+        }
+      }
+    },
     "announcement-bar": {
       "name": "Announcement bar",
       "settings": {
